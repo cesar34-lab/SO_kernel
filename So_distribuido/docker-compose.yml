@@ -1,43 +1,45 @@
-services:
-  coordinador:
-    build: ./coordinador
-    container_name: so_coordinador
-    environment:
-      - PUERTO=8000
-      - DESCUBRIMIENTO_GRUPO=239.10.10.10
-      - DESCUBRIMIENTO_PUERTO=50000
-      - NOMBRE=coordinador
-    ports:
-      - "8000:8000"
-    networks: [so_red]
+# So_distribuido/docker-compose.yml
+version: '3.8'
 
-  agente1:
-    build: ./agentes
-    container_name: so_agente1
+services:
+  nodo1:
+    build: ./nodo
+    container_name: so_nodo1
     environment:
       - PUERTO=8101
-      - COORDINADOR=http://coordinador:8000
+      - NOMBRE=nodo1
       - DESCUBRIMIENTO_GRUPO=239.10.10.10
       - DESCUBRIMIENTO_PUERTO=50000
-      - NOMBRE=agente1
     ports:
       - "8101:8101"
-    depends_on: [coordinador]
-    networks: [so_red]
+    networks:
+      - so_red
 
-  agente2:
-    build: ./agentes
-    container_name: so_agente2
+  nodo2:
+    build: ./nodo
+    container_name: so_nodo2
     environment:
       - PUERTO=8102
-      - COORDINADOR=http://coordinador:8000
+      - NOMBRE=nodo2
       - DESCUBRIMIENTO_GRUPO=239.10.10.10
       - DESCUBRIMIENTO_PUERTO=50000
-      - NOMBRE=agente2
     ports:
       - "8102:8102"
-    depends_on: [coordinador]
-    networks: [so_red]
+    networks:
+      - so_red
+
+  nodo3:
+    build: ./nodo
+    container_name: so_nodo3
+    environment:
+      - PUERTO=8103
+      - NOMBRE=nodo3
+      - DESCUBRIMIENTO_GRUPO=239.10.10.10
+      - DESCUBRIMIENTO_PUERTO=50000
+    ports:
+      - "8103:8103"
+    networks:
+      - so_red
 
 networks:
   so_red:
